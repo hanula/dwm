@@ -11,12 +11,12 @@
 /* appearance */
 static const char font[]            = "Droid Sans 8";
 static const char normbordercolor[] = "#8C8C8C";
-static const char normbgcolor[]     = "#FFFFFF";
+static const char normbgcolor[]     = "#232323";
 static const char normfgcolor[]     = "#8C8C8C";
 static const char selbordercolor[]  = "#4A90D9";
-static const char selbgcolor[]      = "#FFFFFF";
+static const char selbgcolor[]      = "#232323";
 static const char selfgcolor[]      = "#4A90D9";
-static const char urgbgcolor[]      = "#FFFFFF";
+static const char urgbgcolor[]      = "#232323";
 static const char urgfgcolor[]      = "#DC322F";
 
 /* settings */
@@ -25,8 +25,7 @@ static const unsigned int snap           = 2;      /* Snap pixel */
 static const unsigned int minwsz         = 20;     /* Minimal heigt of a client for smfact */
 static const float mfact                 = 0.63;   /* factor of master area size [0.05..0.95] */
 static const float smfact                = 0.00;   /* factor of tiled clients [0.05..1.00] */
-static const char chatclient[]           = "jente_etnej - Skype™"; /* Name of chat client for chatlayout */
-static const char clock_fmt[]            = "%a %d %b, %R";         /* Clock format on the bar */
+static const char chatclient[]           = "chat - Skype™"; /* Name of chat client for chatlayout */
 static const int nmaster                 = 1;      /* number of clients in master area */
 static const Bool showbar                = True;   /* False means no bar */
 static const Bool topbar                 = True;   /* False means bottom bar */
@@ -46,9 +45,10 @@ static const Layout layouts[] = {
 static const Tag tags[] = {
 	/* name	     layout       mfact	nmaster */
 	{ "1 web",   &layouts[0], -1,	-1 },
-	{ "2 chill", &layouts[1], 0.80, -1 },
+	{ "2 term", &layouts[0], -1, -1 },
 	{ "3 term",  &layouts[0], -1,	-1 },
-	{ "4 misc",  &layouts[3], -1,	-1 },
+	{ "4 misc",  &layouts[0], -1 	-1 },
+  { "9 dl",    &layouts[0], -1, -1}
 };
 
 /* rules */
@@ -57,29 +57,18 @@ static const Rule rules[] = {
       class                 instance    title               tags mask   isfloating  monitor */
     { "Firefox",            NULL,       NULL,               1,          False,      -1 },
     { "Skype",              NULL,       NULL,               1 << 1,     False,      -1 },
-    { "Skype",              NULL,       "Call with Aggi~",  1 << 1,     True,       -1 },
-    { "Termite",     	    NULL,       NULL,               1 << 2,     False,      -1 },
-    { "Audacious",          NULL,       NULL,               1 << 3,     False,      -1 },
     { "MPlayer",            NULL,       NULL,               1 << 3,     True,       -1 },
     { "Gimp",               NULL,       NULL,               1 << 3,     False,      -1 },
-    { "Cheese",             NULL,       NULL,               1 << 3,     False,      -1 },
-    { "Brasero",            NULL,       NULL,               1 << 3,     False,      -1 },
     { "Transmission-gtk",   NULL,       NULL,               1 << 3,     False,      -1 },
     { "VirtualBox",         NULL,       NULL,               1 << 3,     False,      -1 },
     { "Evince",             NULL,       NULL,               1 << 3,     False,      -1 },
-    { "libreoffice-writer", NULL,       NULL,               1 << 3,     False,      -1 },
-    { "libreoffice-startcenter", NULL,  NULL,               1 << 3,     False,      -1 },
 };
 
 /* commands */
-static const char *dmenu[]   = { "dmenu_run", "-f", "-p", "Uitvoeren:", NULL };
+static const char *dmenu[]   = { "dmenu_run", "-f", "-p", "Run:", NULL };
 static const char *find[]    = { "dmenu_finder", NULL };
 static const char *dmfm[]    = { "dmenu_fm", NULL };
-static const char *term[]    = { "termite", NULL };
-static const char *browser[] = { "firefox", NULL };
-static const char *files[]   = { "nautilus", NULL };
-static const char *music[]   = { "audacious", NULL };
-static const char *skype[]   = { "skype", NULL };
+static const char *term[]    = { "terminal", NULL };
 static const char *scrot[]   = { "scrot", NULL };
 static const char *kill[]    = { "xkill", NULL };
 static const char *lock[]    = { "slock", NULL };
@@ -95,17 +84,12 @@ static const char *stop[]    = { "audtool", "playback-stop", NULL };
 /* shortcuts */
 static Key keys[] = {
 	/* modifier                 key        function        argument */
-	{ MODKEY,                   XK_r,                       spawn,          {.v = dmenu } },
+	{ MODKEY,                   XK_p,                       spawn,          {.v = dmenu } },
 	{ MODKEY,                   XK_x,                       spawn,          {.v = kill } },
 	{ MODKEY,                   XK_l,                       spawn,          {.v = lock } },
 	{ MODKEY,                   XK_Escape,                  spawn,          {.v = halt } },
 	{ MODKEY,                   XK_z,                       spawn,          {.v = find } },
 	{ MODKEY,                   XK_o,                       spawn,          {.v = dmfm } },
-	{ MODKEY,                   XK_1,                       spawn,          {.v = term } },
-	{ MODKEY,                   XK_2,                       spawn,          {.v = browser } },
-	{ MODKEY,                   XK_3,                       spawn,          {.v = files } },
-	{ MODKEY,                   XK_4,                       spawn,          {.v = music } },
-	{ MODKEY,                   XK_5,                       spawn,          {.v = skype } },
 	{ 0,                        XK_Print,                   spawn,          {.v = scrot } },
 	{ 0,                        XF86XK_AudioRaiseVolume,    spawn,          {.v = volup } },
 	{ 0,                        XF86XK_AudioLowerVolume,    spawn,          {.v = voldown } },
@@ -116,22 +100,19 @@ static Key keys[] = {
 	{ 0,                        XF86XK_AudioStop,           spawn,          {.v = stop } },
 	{ MODKEY|ControlMask,       XK_b,                       togglebar,      {0} },
 	{ MODKEY|ControlMask,       XK_q,                       quit,           {0} },
-	{ MODKEY,                   XK_Tab,                     focusstack,     {.i = +1 } },
-	{ MODKEY|ShiftMask,         XK_Tab,                     focusstack,     {.i = -1 } },
-	{ MODKEY,                   XK_Return,                  zoom,           {0} },
-	{ MODKEY|ControlMask,       XK_Tab,                     view,           {0} },
-	{ MODKEY,                   XK_q,                       killclient,     {0} },
-	{ MODKEY,                   XK_bracketleft,             setmfact,       {.f = -0.05} },
-	{ MODKEY,                   XK_bracketright,            setmfact,       {.f = +0.05} },
-	{ MODKEY,                   XK_0,                       setsmfact,      {.f = +0.05} },
-	{ MODKEY,                   XK_p,                       setsmfact,      {.f = -0.05} },
-	{ MODKEY,                   XK_equal,                   incnmaster,     {.i = +1 } },
-	{ MODKEY,                   XK_minus,                   incnmaster,     {.i = -1 } },
+	{ MODKEY|ControlMask,       XK_Return,                  spawn,          {.v = term } },
+  	{ MODKEY,                   XK_Return,                  zoom,           {0} },
+	{ MODKEY,                   XK_Tab,                     view,           {0} },
+	{ MODKEY|ShiftMask,         XK_c, 				        killclient,     {0} },
 	{ MODKEY,                   XK_space,                   setlayout,      {0} },
+  	{ MODKEY,                   XK_j,                       focusstack,     {.i = +1 } },
+  	{ MODKEY,                   XK_k,                       focusstack,     {.i = -1 } },
+  	{ MODKEY,                   XK_i,                       incnmaster,     {.i = +1 } },
+  	{ MODKEY,                   XK_d,                       incnmaster,     {.i = -1 } },
+  	{ MODKEY,                   XK_h,                       setmfact,       {.f = -0.05} },
+  	{ MODKEY,                   XK_l,                       setmfact,       {.f = +0.05} },
 	{ MODKEY,                   XK_Up,                      pushup,         {0} },
 	{ MODKEY,                   XK_Down,                    pushdown,       {0} },
-	{ MODKEY,                   XK_Left,                    cycle,          {.i = -1 } },
-	{ MODKEY,                   XK_Right,                   cycle,          {.i = +1 } },
 	{ MODKEY|ShiftMask,         XK_Left,                    tagcycle,       {.i = -1 } },
 	{ MODKEY|ShiftMask,         XK_Right,                   tagcycle,       {.i = +1 } },
 	{ MODKEY|ShiftMask,         XK_f,                       togglefloating, {0} },
@@ -140,10 +121,12 @@ static Key keys[] = {
 	{ MODKEY,                   XK_b,                       setlayout,      {.v = &layouts[2] } },
 	{ MODKEY,                   XK_m,                       setlayout,      {.v = &layouts[3] } },
 	{ MODKEY,                   XK_f,                       setlayout,      {.v = &layouts[4] } },
-	TAGKEYS(                    XK_F1,                      0)
-	TAGKEYS(                    XK_F2,                      1)
-	TAGKEYS(                    XK_F3,                      2)
-	TAGKEYS(                    XK_F4,                      3)
+	TAGKEYS(                    XK_1,                      0)
+	TAGKEYS(                    XK_1,                      0)
+	TAGKEYS(                    XK_2,                      1)
+	TAGKEYS(                    XK_3,                      2)
+	TAGKEYS(                    XK_4,                      3)
+  	TAGKEYS(                    XK_9,                      9)
 	{ MODKEY,                   XK_a,                       view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,         XK_a,                       tag,            {.ui = ~0 } },
 	{ MONKEY,                   XK_Left,                    focusmon,       {.i = -1 } },
@@ -153,12 +136,11 @@ static Key keys[] = {
 };
 
 /* mouse button */
-/* click can be ClkLtSymbol, ClkStatusText, ClkClock, ClkClientWin, or ClkRootWin */
+/* click can be ClkLtSymbol, ClkStatusText, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
-	{ ClkClock,             0,              Button1,        killclient,     {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = term } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
