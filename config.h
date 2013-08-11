@@ -44,11 +44,15 @@ static const Layout layouts[] = {
 /* tagging */
 static const Tag tags[] = {
 	/* name	     layout       mfact	nmaster */
-	{ "1 web",   &layouts[0], -1,	-1 },
-	{ "2 term", &layouts[0], -1, -1 },
-	{ "3 term",  &layouts[0], -1,	-1 },
-	{ "4 misc",  &layouts[0], -1 	-1 },
-  { "9 dl",    &layouts[0], -1, -1}
+    { "1", &layouts[0], -1,	-1 },
+    { "2", &layouts[0], -1, -1 },
+    { "3", &layouts[0], -1, -1 },
+    { "4", &layouts[0], -1, -1 },
+    { "5", &layouts[0], -1, -1 },
+    { "6", &layouts[0], -1, -1 },
+    { "7", &layouts[0], -1, -1 },
+    { "8", &layouts[0], -1, -1 },
+    { "9", &layouts[0], -1, -1 }
 };
 
 /* rules */
@@ -122,11 +126,14 @@ static Key keys[] = {
 	{ MODKEY,                   XK_m,                       setlayout,      {.v = &layouts[3] } },
 	{ MODKEY,                   XK_f,                       setlayout,      {.v = &layouts[4] } },
 	TAGKEYS(                    XK_1,                      0)
-	TAGKEYS(                    XK_1,                      0)
 	TAGKEYS(                    XK_2,                      1)
 	TAGKEYS(                    XK_3,                      2)
 	TAGKEYS(                    XK_4,                      3)
-  	TAGKEYS(                    XK_9,                      9)
+    TAGKEYS(                    XK_5,                      4)
+    TAGKEYS(                    XK_6,                      5)
+    TAGKEYS(                    XK_7,                      6)
+    TAGKEYS(                    XK_8,                      7)
+    TAGKEYS(                    XK_9,                      8)
 	{ MODKEY,                   XK_a,                       view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,         XK_a,                       tag,            {.ui = ~0 } },
 	{ MONKEY,                   XK_Left,                    focusmon,       {.i = -1 } },
